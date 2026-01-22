@@ -14,9 +14,8 @@ def predict():
     data = request.get_json()
     msg = data["message"]
 
-    # -----------------------------
-    # 🔥 1. Keyword-based instant spam detection (Indian scam words)
-    # -----------------------------
+    # Keyword-based instant spam detection (Indian scam words)
+   
     fraud_keywords = [
         "aadhaar", "aadhar", "kyc", "loan approved", "loan", "account blocked",
         "pan card", "verify your account", "update your account", 
@@ -37,9 +36,8 @@ def predict():
                 "confidence": 0.99
             })
 
-    # -----------------------------
-    #  2. Machine Learning prediction (your model)
-    # -----------------------------
+    # Machine Learning prediction (your model)
+
     proba = model.predict_proba([msg])[0][1]
     pred = model.predict([msg])[0]
 
@@ -50,3 +48,8 @@ def predict():
 
 if __name__ == "__main__":
     app.run(debug=True)
+    import os
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
