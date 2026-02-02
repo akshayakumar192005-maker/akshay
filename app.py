@@ -27,7 +27,8 @@ def predict():
         "suspicious activity", "security alert", "important notice", "final notice", "payment required", "sensitive information",
         "verify identity", "identity theft", "financial information", "personal information", "click here", "visit this link", "download attachment",
         "urgent response", "confidential information", "account update", "service interruption", "unauthorized access", "account locked",
-        "suspicious login", "unusual activity"]
+        "suspicious login", "unusual activity", "link", "customer support", "help desk", "technical support", "fraudulent activity",
+        "scam", "phishing", "malware", "virus", "spyware", "ransomware", "hacked", "data breach", "security breach"]
 
     for word in fraud_keywords:
         if word.lower() in msg.lower():
