@@ -3,104 +3,122 @@
 <head>
 <meta charset="UTF-8">
 <title>SMS Spam Detection</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+    * {
+        box-sizing: border-box;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
     body {
-        font-family: Arial, sans-serif;
-        background: #000000;
         margin: 0;
-        padding: 0;
+        height: 100vh;
+        background: radial-gradient(circle at top, #1c1f26, #090a0a);
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        color: white;
     }
 
     .container {
-        background: rgb(3, 188, 240);
-        width: 590px;
-        padding: 150px;
-        border-radius: 10px;
-        box-shadow: 0px 0px 18px rgba(0,0,0,0.15);
+        width: 110%;
+        max-width: 900px;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        padding: 50px;
+        border-radius:26px;
+        box-shadow: 0 0 25px rgba(0,0,0,0.6);
     }
 
     h1 {
         text-align: center;
-        color: #f4f4f4;
-        margin-bottom: 20px;
+        font-size: 40px;
+        margin-bottom: 30px;
+        font-weight: bold;
+        letter-spacing: 1px;
     }
 
     textarea {
         width: 100%;
-        height: 160px;
-        padding: 10px;
-        border: 2px solid #070707;
-        border-radius: 8px;
-        font-size: 20px;
+        height: 190px;
+        padding: 25px;
+        border-radius: 30px;
+        border: none;
+        background: #1f222a;
+        color: white;
+        font-size: 25px;
         resize: none;
-        transition: 0.2s;
+        outline: none;
     }
 
-    textarea:focus {
-        border-color: #e10505;
-        outline: none;
+    textarea::placeholder {
+        color: #aaa;
+        font-size:25px;
     }
 
     button {
         width: 100%;
-        background: #e90e0e;
-        color: rgb(255, 255, 255);
+        margin-top: 15px;
+        padding: 12px;
+        border-radius: 10px;
         border: none;
-        border-radius: 8px;
-        padding: 10px;
-        font-size: 20px;
+        background: linear-gradient(90deg, #4e73df, #1cc88a);
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
         cursor: pointer;
-        margin-top: 12px;
         transition: 0.3s;
     }
 
     button:hover {
-        background: #2f69d4;
+        transform: scale(1.03);
+        opacity: 0.9;
     }
 
     #result-box {
         margin-top: 20px;
         padding: 15px;
-        border-radius: 10px;
-        font-size: 18px;
+        border-radius: 12px;
         text-align: center;
+        font-size: 18px;
         display: none;
+        animation: fadeIn 0.4s ease-in-out;
     }
 
     .spam {
-        background: #ffcccc;
-        color: #b30000;
-        border: 2px solid #ff4d4d;
+        background: rgba(255, 0, 0, 0.1);
+        border: 1px solid #ff4d4d;
+        color: #ff4d4d;
     }
 
     .ham {
-        background: #ccffcc;
-        color: #006600;
-        border: 2px solid #33cc33;
+        background: rgba(0, 255, 100, 0.1);
+        border: 1px solid #00cc66;
+        color: #00cc66;
     }
 
     .confidence {
+        margin-top: 6px;
         font-size: 14px;
-        margin-top: 8px;
-        color: #555;
+        color: #ccc;
     }
 
+    @keyframes fadeIn {
+        from {opacity: 0; transform: translateY(10px);}
+        to {opacity: 1; transform: translateY(0);}
+    }
 </style>
 </head>
 
 <body>
 
 <div class="container">
-    <h1>SMS Spam Detection</h1>
+    <h1>SMS Spam Classifier</h1>
 
-    <textarea id="message" placeholder="Type your SMS message here..."></textarea>
+    <textarea id="message" placeholder="Enter the message..."></textarea>
 
-    <button onclick="checkSpam()">Check Spam</button>
+    <button onclick="checkSpam()">Predict</button>
 
     <div id="result-box"></div>
 </div>
@@ -121,17 +139,16 @@ async function checkSpam() {
     });
 
     const data = await res.json();
-
     let box = document.getElementById("result-box");
     box.style.display = "block";
 
     if (data.label === "spam") {
         box.className = "spam";
-        box.innerHTML = `<b>Prediction: SPAM 🚨🤯</b>
+        box.innerHTML = `<b>🚨 SPAM DETECTED</b>
                          <div class='confidence'>Confidence: ${(data.confidence * 100).toFixed(2)}%</div>`;
     } else {
         box.className = "ham";
-        box.innerHTML = `<b>Prediction: HAM ✔️😎</b>
+        box.innerHTML = `<b>✔️ NOT SPAM</b>
                          <div class='confidence'>Confidence: ${(data.confidence * 100).toFixed(2)}%</div>`;
     }
 }
